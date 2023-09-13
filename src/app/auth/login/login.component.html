@@ -1,0 +1,49 @@
+<div class="bg">
+  <div class="parent">
+    <div class="child">
+      <h1 class="form-title">Login</h1>
+      <form class="login-form" [formGroup]="loginForm">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            placeholder="Enter Email"
+            formControlName="email"
+          />
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')"
+            >This Input Is Required!</mat-error
+          >
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email')"
+            >Please enter address</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          />
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')"
+            >This Input Is Required!</mat-error
+          >
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="login()"
+          [disabled]="loginForm.invalid"
+        >
+          Login
+        </button>
+      </form>
+      <div id="buttonDiv"></div>
+      <button (click)="loginFacebook()">LOGIN FACEBOOK</button>
+      <button (click)="statusFacebook()">VERIFICAR STATUS FACEBOOK</button>
+    </div>
+  </div>
+</div>
