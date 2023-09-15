@@ -14,7 +14,8 @@ import { GoogleTokenData } from 'src/app/interfaces/GoogleTokenData';
 import { AdminService } from 'src/app/modules/admin/admin-service/admin.service';
 
 declare var google: any; // ou importe de forma mais segura, dependendo das configurações do TypeScript
-declare const FB: any;
+declare var FB: any;
+declare var AppleID;
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,7 @@ export class LoginComponent {
     private adminService: AdminService,
     private snackBar: MatSnackBar,
     private _ngZone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit() {
     StorageService.logout();
@@ -182,6 +183,37 @@ export class LoginComponent {
         }
       };
   }
+
+  parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
+
+  public async apple() {
+    try {
+      console.log(AppleID)
+      AppleID.auth.init({
+        clientId: 'VRSignIn',
+        scope: 'name email',
+        redirectURI: 'https://angular-apple-signin.stackblitz.io/apple-callback',
+        state: 'init',
+        nonce: 'test',
+        usePopup: true //or false defaults to false
+      });
+      const data = await AppleID.auth.signIn();
+      console.log(this.parseJwt(data.authorization.id_token))
+
+    } catch (error) {
+      console.log(error)
+      //handle error.
+    }
+  }
+
 }
 
 function statusChangeCallback(response) {

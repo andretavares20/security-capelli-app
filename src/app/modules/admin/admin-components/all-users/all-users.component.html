@@ -8,6 +8,7 @@
       <p>Date of Birth: <strong>{{user.dob | date:'d,MMM,y'}}</strong></p>
       <p>Gender: <strong>{{user.gender}}</strong></p>
       <p>Address: <strong>{{user.address}}</strong></p>
+      <p>Source: <strong>{{user.source}}</strong></p>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button color="accent" routerLink="/admin/user/{{user.id}}">Update</button>
